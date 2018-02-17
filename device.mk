@@ -14,6 +14,16 @@
 # limitations under the License.
 #
 
+# Inline kernel building
+TARGET_KERNEL_SOURCE := kernel/google/wahoo
+BOARD_KERNEL_IMAGE_NAME := Image.lz4-dtb
+#TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_NEEDS_DTBOIMAGE := true
+TARGET_COMPILE_WITH_MSM_KERNEL := true
+
+# Audio
+BOARD_SUPPORTS_SOUND_TRIGGER := true
+
 PRODUCT_PROPERTY_OVERRIDES += \
     keyguard.no_require_sim=true
 
@@ -21,32 +31,26 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/default-permissions.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default-permissions/default-permissions.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
 
-# EUICC feature
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.telephony.euicc.xml
-
 # Set the SVN for the targeted MR release
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.build.svn=6
 
 # Enforce privapp-permissions whitelist
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.control_privapp_permissions=disable
+    ro.control_privapp_permissions=enforce
 
 PRODUCT_PACKAGES += \
     messaging \
     netutils-wrapper-1.0
 
-LOCAL_PATH := device/google/wahoo
-
 SRC_MEDIA_HAL_DIR := hardware/qcom/media/msm8998
 SRC_DISPLAY_HAL_DIR := hardware/qcom/display/msm8998
 SRC_CAMERA_HAL_DIR := hardware/qcom/camera/msm8998
 
-TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
+TARGET_SYSTEM_PROP := device/google/wahoo/system.prop
 
 # Get kernel-headers
-$(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
+# $(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
 
 $(call inherit-product, device/google/wahoo/utils.mk)
 
@@ -54,31 +58,31 @@ PRODUCT_CHARACTERISTICS := nosdcard
 PRODUCT_SHIPPING_API_LEVEL := 26
 PRODUCT_COMPATIBILITY_MATRIX_LEVEL_OVERRIDE := 27
 
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += device/google/wahoo/overlay
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init.recovery.hardware.rc:root/init.recovery.$(PRODUCT_HARDWARE).rc \
-    $(LOCAL_PATH)/init.hardware.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.$(PRODUCT_HARDWARE).rc \
-    $(LOCAL_PATH)/init.hardware.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.wahoo.usb.rc \
-    $(LOCAL_PATH)/ueventd.hardware.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc \
-    $(LOCAL_PATH)/init.elabel.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/init.elabel.sh \
-    $(LOCAL_PATH)/init.power.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.power.sh \
-    $(LOCAL_PATH)/init.radio.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.radio.sh \
-    $(LOCAL_PATH)/uinput-fpc.kl:system/usr/keylayout/uinput-fpc.kl \
-    $(LOCAL_PATH)/uinput-fpc.idc:system/usr/idc/uinput-fpc.idc \
-    $(LOCAL_PATH)/init.qcom.devstart.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.devstart.sh \
-    $(LOCAL_PATH)/init.qcom.ipastart.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.ipastart.sh \
-    $(LOCAL_PATH)/init.insmod.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.insmod.sh \
-    $(LOCAL_PATH)/init.ramoops.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/init.ramoops.sh \
+    device/google/wahoo/init.recovery.hardware.rc:root/init.recovery.$(PRODUCT_HARDWARE).rc \
+    device/google/wahoo/init.hardware.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.$(PRODUCT_HARDWARE).rc \
+    device/google/wahoo/init.hardware.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.wahoo.usb.rc \
+    device/google/wahoo/ueventd.hardware.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc \
+    device/google/wahoo/init.elabel.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/init.elabel.sh \
+    device/google/wahoo/init.power.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.power.sh \
+    device/google/wahoo/init.radio.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.radio.sh \
+    device/google/wahoo/uinput-fpc.kl:system/usr/keylayout/uinput-fpc.kl \
+    device/google/wahoo/uinput-fpc.idc:system/usr/idc/uinput-fpc.idc \
+    device/google/wahoo/init.qcom.devstart.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.devstart.sh \
+    device/google/wahoo/init.qcom.ipastart.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.ipastart.sh \
+    device/google/wahoo/init.insmod.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.insmod.sh \
+    device/google/wahoo/init.ramoops.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/init.ramoops.sh \
     frameworks/native/services/vr/virtual_touchpad/idc/vr-virtual-touchpad-0.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/vr-virtual-touchpad-0.idc \
     frameworks/native/services/vr/virtual_touchpad/idc/vr-virtual-touchpad-1.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/vr-virtual-touchpad-1.idc
 
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
   PRODUCT_COPY_FILES += \
-      $(LOCAL_PATH)/init.hardware.diag.rc.userdebug:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.$(PRODUCT_HARDWARE).diag.rc
+      device/google/wahoo/init.hardware.diag.rc.userdebug:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.$(PRODUCT_HARDWARE).diag.rc
 else
   PRODUCT_COPY_FILES += \
-      $(LOCAL_PATH)/init.hardware.diag.rc.user:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.$(PRODUCT_HARDWARE).diag.rc
+      device/google/wahoo/init.hardware.diag.rc.user:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.$(PRODUCT_HARDWARE).diag.rc
 endif
 
 MSM_VIDC_TARGET_LIST := msm8998 # Get the color format from kernel headers
@@ -169,7 +173,7 @@ PRODUCT_PACKAGES += \
     android.hardware.power@1.1-service.wahoo
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+    device/google/wahoo/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 
 # Audio fluence, ns, aec property, voice and media volume steps
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -266,9 +270,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # WLAN driver configuration files
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
-    $(LOCAL_PATH)/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/wifi_concurrency_cfg.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wifi_concurrency_cfg.txt
+    device/google/wahoo/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
+    device/google/wahoo/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
+    device/google/wahoo/wifi_concurrency_cfg.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wifi_concurrency_cfg.txt
 
 #ipacm configuration files
 PRODUCT_COPY_FILES += \
@@ -354,7 +358,7 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-service
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/sensors/hals.conf:vendor/etc/sensors/hals.conf
+    device/google/wahoo/sensors/hals.conf:vendor/etc/sensors/hals.conf
 
 # Default permission grant exceptions
 PRODUCT_COPY_FILES += \
@@ -396,7 +400,7 @@ PRODUCT_PACKAGES += \
     android.hardware.vr@1.0-service.wahoo \
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
+    device/google/wahoo/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
 
 
 HOSTAPD := hostapd
@@ -469,7 +473,7 @@ PRODUCT_PACKAGES += \
 endif
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
+    device/google/wahoo/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
@@ -478,23 +482,23 @@ PRODUCT_COPY_FILES += \
 
 # audio hal tables
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml \
-    $(LOCAL_PATH)/sound_trigger_mixer_paths_wcd9340.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths_wcd9340.xml \
-    $(LOCAL_PATH)/graphite_ipc_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/graphite_ipc_platform_info.xml \
+    device/google/wahoo/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml \
+    device/google/wahoo/sound_trigger_mixer_paths_wcd9340.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths_wcd9340.xml \
+    device/google/wahoo/graphite_ipc_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/graphite_ipc_platform_info.xml \
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
-    $(LOCAL_PATH)/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
+    device/google/wahoo/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    device/google/wahoo/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml \
-    $(LOCAL_PATH)/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
+    device/google/wahoo/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     audio.snd_card.open.retries=50
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/lowi.conf:$(TARGET_COPY_OUT_VENDOR)/etc/lowi.conf
+    device/google/wahoo/lowi.conf:$(TARGET_COPY_OUT_VENDOR)/etc/lowi.conf
 
 # Fingerprint HIDL implementation
 PRODUCT_PACKAGES += \
@@ -505,15 +509,15 @@ PRODUCT_COPY_FILES += \
 
 # GPS configuration file
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
+    device/google/wahoo/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
 
 # GPS debug file
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps_debug.conf:system/etc/gps_debug.conf
+    device/google/wahoo/gps_debug.conf:system/etc/gps_debug.conf
 
 # Vendor seccomp policy files for media components:
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/seccomp_policy/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
+    device/google/wahoo/seccomp_policy/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
 
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 # Subsystem ramdump
@@ -533,7 +537,7 @@ PRODUCT_COPY_FILES += \
 
 # Provide meaningful APN configuration
 # PRODUCT_COPY_FILES += \
-#     $(LOCAL_PATH)/apns-full-conf.xml:system/etc/apns-conf.xml
+#     device/google/wahoo/apns-full-conf.xml:system/etc/apns-conf.xml
 
 # Use the default charger mode images
 PRODUCT_PACKAGES += \
@@ -613,3 +617,7 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
 # audio effects config
 PRODUCT_PROPERTY_OVERRIDES += \
     fmas.hdph_sgain=0
+
+# EUICC feature
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.telephony.euicc.xml
