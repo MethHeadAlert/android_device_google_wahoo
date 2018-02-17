@@ -17,7 +17,7 @@
 # Inline kernel building
 TARGET_KERNEL_SOURCE := kernel/google/wahoo
 BOARD_KERNEL_IMAGE_NAME := Image.lz4-dtb
-#TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_NEEDS_DTBOIMAGE := true
 TARGET_COMPILE_WITH_MSM_KERNEL := true
 
@@ -275,8 +275,8 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/wifi_concurrency_cfg.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wifi_concurrency_cfg.txt
 
 #ipacm configuration files
-PRODUCT_COPY_FILES += \
-    hardware/qcom/data/ipacfg-mgr/msm8998/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
+#PRODUCT_COPY_FILES += \
+#    hardware/qcom/data/ipacfg-mgr/msm8998/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
 
 PRODUCT_PACKAGES += \
     hwcomposer.msm8998 \
