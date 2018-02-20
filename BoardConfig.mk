@@ -54,6 +54,16 @@ TARGET_NO_RECOVERY := true
 BOARD_USES_RECOVERY_AS_BOOT := true
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 
+# Inline kernel building
+TARGET_KERNEL_SOURCE := kernel/google/wahoo
+BOARD_KERNEL_IMAGE_NAME := Image.lz4-dtb
+TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_NEEDS_DTBOIMAGE := true
+TARGET_COMPILE_WITH_MSM_KERNEL := true
+
+# Audio
+BOARD_SUPPORTS_SOUND_TRIGGER := true
+
 # Partitions (listed in the file) to be wiped under recovery.
 TARGET_RECOVERY_WIPE := device/google/wahoo/recovery.wipe
 TARGET_RECOVERY_FSTAB := device/google/wahoo/fstab.hardware
@@ -167,5 +177,3 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 TARGET_USES_MKE2FS := true
 
 BOARD_VNDK_VERSION := current
-
--include device/google/wahoo/BoardConfigCarbon.mk

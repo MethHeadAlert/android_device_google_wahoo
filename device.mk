@@ -569,8 +569,8 @@ PRODUCT_COPY_FILES += \
     device/google/wahoo/tango_permissions.xml:system/etc/permissions/tango_permissions.xml \
     device/google/wahoo/libtango_device2.jar:system/framework/libtango_device2.jar
 
-PRODUCT_PACKAGES += \
-    ipacm
+#PRODUCT_PACKAGES += \
+#    ipacm
 
 #Set default CDMA subscription to RUIM
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -609,4 +609,13 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
 PRODUCT_PROPERTY_OVERRIDES += \
     fmas.hdph_sgain=0
 
--include device/google/wahoo/device-carbon.mk
+PRODUCT_PROPERTY_OVERRIDES += \
+      media.recorder.show_manufacturer_and_model=true
+
+# MiFare Permissions file
+PRODUCT_COPY_FILES += \
+      frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/com.nxp.mifare.xml
+
+# EUICC feature
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.telephony.euicc.xml
